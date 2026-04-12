@@ -45,8 +45,8 @@
         };
 
         const FILAMENTS = [
-          { id: 'black', name: 'Black', hex: '#262626', img: 'previe1.png' },
-          { id: 'bone-white', name: 'Bone White', hex: '#E3DAC9', img: 'preview2.png' },
+          { id: 'black', name: 'Black', hex: '#262626' },
+          { id: 'bone-white', name: 'Bone White', hex: '#E3DAC9' },
           { id: 'blue', name: 'Sunlu Klein Blue', hex: '#002FA7' },
           { id: 'red', name: 'Red', hex: '#DC2626' },
           { id: 'yellow', name: 'Vvivid Yellow', hex: '#FFCC00' },
@@ -105,27 +105,29 @@
                   </p>
                 </header>
 
-                {/* The 2 Photos Section */}
+                {/* The 2 Photos Section (Labels Removed) */}
                 <div className="flex flex-wrap justify-center gap-8 mb-16">
-                  <div className="text-center group">
-                    <div className="w-56 h-56 md:w-72 md:h-72 bg-gray-800 rounded-3xl border-2 border-gray-700 overflow-hidden mb-3 shadow-2xl transition-all group-hover:border-blue-500">
-                      <img src="previe1.png" alt="Black Filament" className="w-full h-full object-cover" />
-                    </div>
-                    <p className="text-xs font-bold text-gray-500 uppercase tracking-widest">Black Filament</p>
+                  <div className="w-56 h-56 md:w-72 md:h-72 bg-gray-800 rounded-3xl border-2 border-gray-700 overflow-hidden shadow-2xl transition-all hover:border-blue-500">
+                    <img src="previe1.png" alt="Reference 1" className="w-full h-full object-cover" />
                   </div>
-                  <div className="text-center group">
-                    <div className="w-56 h-56 md:w-72 md:h-72 bg-gray-800 rounded-3xl border-2 border-gray-700 overflow-hidden mb-3 shadow-2xl transition-all group-hover:border-blue-500">
-                      <img src="preview2.png" alt="Bone White Filament" className="w-full h-full object-cover" />
-                    </div>
-                    <p className="text-xs font-bold text-gray-500 uppercase tracking-widest">Bone White Filament</p>
+                  <div className="w-56 h-56 md:w-72 md:h-72 bg-gray-800 rounded-3xl border-2 border-gray-700 overflow-hidden shadow-2xl transition-all hover:border-blue-500">
+                    <img src="preview2.png" alt="Reference 2" className="w-full h-full object-cover" />
                   </div>
+                </div>
+
+                {/* NEW Instruction Header */}
+                <div className="text-center mb-10 px-4">
+                  <h2 className="text-xl md:text-2xl font-bold text-blue-400 leading-tight">
+                    Feel free to change the text and color, capture your screen and send it to me! :)
+                  </h2>
+                  <div className="h-1 w-24 bg-blue-500 mx-auto mt-4 rounded-full opacity-50"></div>
                 </div>
 
                 {/* Simulator Section */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-gray-800 p-8 rounded-3xl border border-gray-700 shadow-2xl">
                   {/* Visualizer */}
                   <div className="scene flex justify-center items-center bg-gray-900 rounded-2xl h-[500px] border border-gray-800 relative">
-                    <div className="absolute top-4 left-4 text-xs font-mono text-gray-500">3D Simulator Preview</div>
+                    <div className="absolute top-4 left-4 text-xs font-mono text-gray-500 uppercase tracking-tighter">Live Preview</div>
                     <div className="pad-case rounded-2xl p-3 transition-all duration-300"
                       style={{ 
                         backgroundColor: caseColor,
@@ -146,17 +148,26 @@
                     </div>
                   </div>
 
-                  {/* Controls */}
+                  {/* Controls Area */}
                   <div className="flex flex-col">
                     <div className="mb-8">
-                      <h3 className="text-sm font-bold text-gray-400 uppercase mb-3">Text on Keys</h3>
+                      <h3 className="text-sm font-bold text-gray-400 uppercase mb-3">Custom Text</h3>
                       <input type="text" maxLength={5} value={friendName}
                         onChange={(e) => setFriendName(e.target.value.toUpperCase())}
-                        className="w-full bg-gray-900 border border-gray-700 text-white rounded-lg px-4 py-3 font-mono text-lg outline-none uppercase shadow-inner" />
+                        className="w-full bg-gray-900 border border-gray-700 text-white rounded-lg px-4 py-3 font-mono text-lg outline-none uppercase shadow-inner focus:border-blue-500 transition-colors" />
                     </div>
                     <ColorPicker title="1. Case Filament" selectedColor={caseColor} onSelect={setCaseColor} />
                     <ColorPicker title="2. Keycap Filament" selectedColor={capColor} onSelect={setCapColor} />
                     <ColorPicker title="3. Text Color" selectedColor={textColor} onSelect={setTextColor} />
+                    
+                    <div className="mt-4 pt-4 border-t border-gray-700">
+                       <p className="text-[10px] text-gray-500 uppercase font-bold tracking-widest mb-2">Selected Parts:</p>
+                       <div className="flex gap-2">
+                          <div className="w-4 h-4 rounded-full border border-gray-600" style={{backgroundColor: caseColor}}></div>
+                          <div className="w-4 h-4 rounded-full border border-gray-600" style={{backgroundColor: capColor}}></div>
+                          <div className="w-4 h-4 rounded-full border border-gray-600" style={{backgroundColor: textColor}}></div>
+                       </div>
+                    </div>
                   </div>
                 </div>
               </div>
