@@ -4,33 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Color Simulator</title>
-    <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Load React -->
     <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
-    <!-- Load Babel so React JSX works in the browser -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
 <body class="bg-gray-900 text-white font-sans selection:bg-blue-500">
-    
-    <!-- This is where the app will appear -->
     <div id="root"></div>
 
     <script type="text/babel">
         const { useState } = React;
 
-        // --- Helper functions for generating 3D isometric depth ---
         const darkenHex = (hex, percent) => {
           const cleanHex = hex.replace('#', '');
           let r = parseInt(cleanHex.substring(0, 2), 16);
           let g = parseInt(cleanHex.substring(2, 4), 16);
           let b = parseInt(cleanHex.substring(4, 6), 16);
-          
           r = Math.floor(r * (1 - percent));
           g = Math.floor(g * (1 - percent));
           b = Math.floor(b * (1 - percent));
-          
           const toHex = (n) => n.toString(16).padStart(2, '0');
           return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
         };
@@ -38,11 +30,9 @@
         const generateDepthShadow = (hexColor, depthLayers, isKeycap = false) => {
           const darkColor = darkenHex(hexColor, 0.3);
           let shadows = [];
-          
           for (let i = 1; i <= depthLayers; i++) {
             shadows.push(`-${i}px ${i}px 0 ${darkColor}`);
           }
-          
           if (isKeycap) {
             shadows.push(`inset 0 2px 5px rgba(255,255,255,0.2)`);
             shadows.push(`-${depthLayers + 4}px ${depthLayers + 4}px 8px rgba(0,0,0,0.5)`);
@@ -55,8 +45,8 @@
         };
 
         const FILAMENTS = [
-          { id: 'black', name: 'Black', hex: '#262626' },
-          { id: 'bone-white', name: 'Bone White', hex: '#E3DAC9' },
+          { id: 'black', name: 'Black', hex: '#262626', img: 'previe1.png' },
+          { id: 'bone-white', name: 'Bone White', hex: '#E3DAC9', img: 'preview2.png' },
           { id: 'blue', name: 'Sunlu Klein Blue', hex: '#002FA7' },
           { id: 'red', name: 'Red', hex: '#DC2626' },
           { id: 'yellow', name: 'Vvivid Yellow', hex: '#FFCC00' },
@@ -76,14 +66,11 @@
           const caseShadow = generateDepthShadow(caseColor, 25, false);
           const capShadowNormal = generateDepthShadow(capColor, 8, true);
           const capShadowActive = generateDepthShadow(capColor, 2, true);
-
           const dynamicScale = Math.min(1.1, 7 / Math.max(5, numKeys));
 
           const ColorPicker = ({ title, selectedColor, onSelect }) => (
             <div className="mb-6">
-              <h3 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-3">
-                {title}
-              </h3>
+              <h3 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-3">{title}</h3>
               <div className="flex flex-wrap gap-3">
                 {FILAMENTS.map((fil) => (
                   <button
@@ -104,53 +91,54 @@
             <div className="min-h-screen py-12 px-4 flex flex-col items-center">
               <style>{`
                 .scene { perspective: 1200px; }
-                .pad-case { transform-style: preserve-3d; border: 1px solid rgba(255,255,255,0.05); }
+                .pad-case { transform-style: preserve-3d; }
                 .keycap { box-shadow: var(--cap-shadow-normal); transform: translate(0px, 0px); }
                 .keycap:active { box-shadow: var(--cap-shadow-active); transform: translate(-6px, 6px); }
               `}</style>
 
               <div className="max-w-5xl w-full">
-                <header className="text-center mb-12">
-                  <h1 className="text-4xl font-extrabold tracking-tight mb-2 text-white">
-                    Color Simulator
-                  </h1>
-                  <p className="text-gray-400">Design your custom color</p>
+                {/* Header Section */}
+                <header className="text-center mb-6">
+                  <h1 className="text-4xl font-extrabold mb-4">Color Simulator</h1>
+                  <p className="text-gray-400 font-medium text-lg mb-8 uppercase tracking-widest">
+                    Real ones look more like this:
+                  </p>
                 </header>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start bg-gray-800 p-8 rounded-3xl border border-gray-700 shadow-2xl">
-                  
-                  {/* 3D Visualizer Area */}
-                  <div className="scene flex justify-center items-center bg-gray-900 rounded-2xl h-[500px] border border-gray-800 overflow-hidden relative">
-                    <div className="absolute top-4 left-4 text-xs font-mono text-gray-500">
-                      Interactive 3D Preview
+                {/* The 2 Photos Section */}
+                <div className="flex flex-wrap justify-center gap-8 mb-16">
+                  <div className="text-center group">
+                    <div className="w-56 h-56 md:w-72 md:h-72 bg-gray-800 rounded-3xl border-2 border-gray-700 overflow-hidden mb-3 shadow-2xl transition-all group-hover:border-blue-500">
+                      <img src="previe1.png" alt="Black Filament" className="w-full h-full object-cover" />
                     </div>
-                    
-                    <div 
-                      className="pad-case rounded-2xl p-3 transition-all duration-300 ease-out"
+                    <p className="text-xs font-bold text-gray-500 uppercase tracking-widest">Black Filament</p>
+                  </div>
+                  <div className="text-center group">
+                    <div className="w-56 h-56 md:w-72 md:h-72 bg-gray-800 rounded-3xl border-2 border-gray-700 overflow-hidden mb-3 shadow-2xl transition-all group-hover:border-blue-500">
+                      <img src="preview2.png" alt="Bone White Filament" className="w-full h-full object-cover" />
+                    </div>
+                    <p className="text-xs font-bold text-gray-500 uppercase tracking-widest">Bone White Filament</p>
+                  </div>
+                </div>
+
+                {/* Simulator Section */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-gray-800 p-8 rounded-3xl border border-gray-700 shadow-2xl">
+                  {/* Visualizer */}
+                  <div className="scene flex justify-center items-center bg-gray-900 rounded-2xl h-[500px] border border-gray-800 relative">
+                    <div className="absolute top-4 left-4 text-xs font-mono text-gray-500">3D Simulator Preview</div>
+                    <div className="pad-case rounded-2xl p-3 transition-all duration-300"
                       style={{ 
                         backgroundColor: caseColor,
                         boxShadow: caseShadow,
                         transform: `rotateX(55deg) rotateZ(-35deg) scale(${dynamicScale})`
-                      }}
-                    >
-                      <div 
-                        className="flex flex-col gap-2 p-2 rounded-xl"
-                        style={{
-                          backgroundColor: darkenHex(caseColor, 0.15),
-                          boxShadow: `inset 4px 4px 12px rgba(0,0,0,0.6), inset -2px -2px 6px rgba(255,255,255,0.15)`
-                        }}
-                      >
+                      }}>
+                      <div className="flex flex-col gap-2 p-2 rounded-xl" style={{ backgroundColor: darkenHex(caseColor, 0.15) }}>
                         {keysArray.map((i) => (
-                          <button
-                            key={i}
-                            className="keycap w-16 h-16 rounded-lg flex items-center justify-center font-black text-4xl transition-all duration-100 cursor-pointer select-none outline-none focus:outline-none"
+                          <button key={i} className="keycap w-16 h-16 rounded-lg flex items-center justify-center font-black text-4xl"
                             style={{ 
-                              backgroundColor: capColor, 
-                              color: textColor,
-                              '--cap-shadow-normal': capShadowNormal,
-                              '--cap-shadow-active': capShadowActive,
-                            }}
-                          >
+                              backgroundColor: capColor, color: textColor,
+                              '--cap-shadow-normal': capShadowNormal, '--cap-shadow-active': capShadowActive,
+                            }}>
                             {friendName.charAt(i) || ' '}
                           </button>
                         ))}
@@ -158,38 +146,17 @@
                     </div>
                   </div>
 
-                  {/* Controls Area */}
-                  <div className="flex flex-col gap-2">
-                    
+                  {/* Controls */}
+                  <div className="flex flex-col">
                     <div className="mb-8">
-                      <h3 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-3">
-                        Text on Keys (Up to 5 Letters)
-                      </h3>
-                      <input
-                        type="text"
-                        maxLength={5}
-                        value={friendName}
+                      <h3 className="text-sm font-bold text-gray-400 uppercase mb-3">Text on Keys</h3>
+                      <input type="text" maxLength={5} value={friendName}
                         onChange={(e) => setFriendName(e.target.value.toUpperCase())}
-                        placeholder="Name..."
-                        className="w-full bg-gray-900 border border-gray-700 text-white rounded-lg px-4 py-3 font-mono text-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all uppercase shadow-inner"
-                      />
+                        className="w-full bg-gray-900 border border-gray-700 text-white rounded-lg px-4 py-3 font-mono text-lg outline-none uppercase shadow-inner" />
                     </div>
-
-                    <div className="h-px w-full bg-gray-700 mb-8 rounded-full"></div>
-
                     <ColorPicker title="1. Case Filament" selectedColor={caseColor} onSelect={setCaseColor} />
                     <ColorPicker title="2. Keycap Filament" selectedColor={capColor} onSelect={setCapColor} />
-                    <ColorPicker title="3. Text Filament" selectedColor={textColor} onSelect={setTextColor} />
-
-                    <div className="mt-6 p-4 bg-gray-900 rounded-lg border border-gray-700 text-sm">
-                      <p className="text-gray-400 mb-1">Current Configuration:</p>
-                      <ul className="text-gray-200 font-mono space-y-1">
-                        <li><span className="text-gray-500 w-12 inline-block">Case:</span> {FILAMENTS.find(f => f.hex === caseColor)?.name}</li>
-                        <li><span className="text-gray-500 w-12 inline-block">Caps:</span> {FILAMENTS.find(f => f.hex === capColor)?.name}</li>
-                        <li><span className="text-gray-500 w-12 inline-block">Text:</span> {FILAMENTS.find(f => f.hex === textColor)?.name}</li>
-                      </ul>
-                    </div>
-
+                    <ColorPicker title="3. Text Color" selectedColor={textColor} onSelect={setTextColor} />
                   </div>
                 </div>
               </div>
@@ -197,7 +164,6 @@
           );
         }
 
-        // Render the app
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<App />);
     </script>
