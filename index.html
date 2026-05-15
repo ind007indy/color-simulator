@@ -48,15 +48,15 @@
           { id: 'black', name: 'Black', hex: '#262626' },
           { id: 'bone-white', name: 'Bone White', hex: '#E3DAC9' },
           { id: 'blue', name: 'Sunlu Klein Blue', hex: '#002FA7' },
-          { id: 'cyan', name: 'Sunlu Cyan', hex: '#2BC0F5' }, // Sampling updated to match your image
+          { id: 'cyan', name: 'Sunlu Cyan', hex: '#2BC0F5' },
           { id: 'red', name: 'Red', hex: '#DC2626' },
           { id: 'yellow', name: 'Vvivid Yellow', hex: '#FFCC00' },
           { id: 'dark-green', name: 'Olive Green', hex: '#556B2F' },
-          { id: 'light-green', name: 'Bambu Green', hex: '#00AE42' },
+          { id: 'sunlu-grey', name: 'Sunlu Grey', hex: '#545859' }, // Updated from Light Green
         ];
 
         function App() {
-          const [caseColor, setCaseColor] = useState(FILAMENTS[1].hex); 
+          const [caseColor, setCaseColor] = useState(FILAMENTS[7].hex); // Defaulting to the new Grey
           const [capColor, setCapColor] = useState(FILAMENTS[0].hex);   
           const [textColor, setTextColor] = useState(FILAMENTS[4].hex); 
           const [friendName, setFriendName] = useState('CLICK');
@@ -101,25 +101,9 @@
                 <header className="text-center mb-6">
                   <h1 className="text-4xl font-extrabold mb-4">Color Simulator</h1>
                   <p className="text-gray-400 font-medium text-lg mb-8 uppercase tracking-widest">
-                    Real ones look more like this:
+                    Updated with Sunlu Grey
                   </p>
                 </header>
-
-                <div className="flex flex-wrap justify-center gap-8 mb-16">
-                  <div className="w-56 h-56 md:w-72 md:h-72 bg-gray-800 rounded-3xl border-2 border-gray-700 overflow-hidden shadow-2xl transition-all hover:border-blue-500">
-                    <img src="previe1.png" alt="Reference 1" className="w-full h-full object-cover" />
-                  </div>
-                  <div className="w-56 h-56 md:w-72 md:h-72 bg-gray-800 rounded-3xl border-2 border-gray-700 overflow-hidden shadow-2xl transition-all hover:border-blue-500">
-                    <img src="preview2.png" alt="Reference 2" className="w-full h-full object-cover" />
-                  </div>
-                </div>
-
-                <div className="text-center mb-10 px-4">
-                  <h2 className="text-xl md:text-2xl font-bold text-blue-400 leading-tight">
-                    Feel free to change the text and color, capture your screen and send it to me! :)
-                  </h2>
-                  <div className="h-1 w-24 bg-blue-500 mx-auto mt-4 rounded-full opacity-50"></div>
-                </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-gray-800 p-8 rounded-3xl border border-gray-700 shadow-2xl">
                   <div className="scene flex justify-center items-center bg-gray-900 rounded-2xl h-[500px] border border-gray-800 relative">
